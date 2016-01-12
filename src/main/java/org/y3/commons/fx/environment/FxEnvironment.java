@@ -1,7 +1,7 @@
 package org.y3.commons.fx.environment;
 
 /** 
- * <p>Title: org.y3.commons.fx - FxEnvironment</p>
+ * <p>Title: org.y3.commons.fx.environment - FxEnvironment</p>
  * <p>Description: </p>
  * <p>Copyright: 2016</p>
  * <p>Organisation: IT-Happens.de</p>

@@ -3,6 +3,7 @@ package org.y3.commons.fx;
 import java.util.ResourceBundle;
 import javafx.scene.image.Image;
 import lombok.extern.log4j.Log4j2;
+import org.apache.logging.log4j.Logger;
 
 /** 
  * <p>Title: org.y3.commons.fx - FxConfiguration</p>
@@ -23,20 +24,22 @@ public abstract class FxConfiguration {
     public abstract String getResourceBundleName();
     public abstract String getStylesheetName();
     
+    public abstract Logger getLogger();
+    
     public String getStylesheet() {
         return getClass().getClassLoader().getResource(getStylesheetPath() + "/" + getStylesheetName()).toExternalForm();
     }
     
     public Image getFxImage(String filename) {
         String resourcePath = getImagesPath() + "/" + filename;
-        log.debug("resourcePath: " + resourcePath);
+        getLogger().debug("resourcePath: " + resourcePath);
         return new Image(getClass().getClassLoader().getResourceAsStream(resourcePath));
     }
     
     public String getRbString(String rbKey) {
         if (bundle == null) {
             String resourceBundlePath = getResourceBundlePath() + "/" + getResourceBundleName();
-            log.debug("resourceBundlePath: " + resourceBundlePath);
+            getLogger().debug("resourceBundlePath: " + resourceBundlePath);
             bundle = ResourceBundle.getBundle(resourceBundlePath);
         }
         return bundle.getString(rbKey);

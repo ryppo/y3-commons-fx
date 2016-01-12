@@ -1,11 +1,10 @@
 package org.y3.commons.fx;
 
-import org.y3.commons.fx.environment.FxOperatingSystemEnvironment;
-import org.y3.commons.fx.environment.FxEnvironment;
-import org.y3.commons.fx.environment.FxJavaEnvironment;
 import java.util.HashMap;
 import java.util.Map;
-import lombok.extern.log4j.Log4j2;
+import org.y3.commons.fx.environment.FxEnvironment;
+import org.y3.commons.fx.environment.FxJavaEnvironment;
+import org.y3.commons.fx.environment.FxOperatingSystemEnvironment;
 
 /** 
  * <p>Title: org.y3.commons.fx - FxContext</p>
@@ -14,7 +13,6 @@ import lombok.extern.log4j.Log4j2;
  * <p>Organisation: IT-Happens.de</p>
  * @author Christian.Rybotycky
 */
-@Log4j2
 public class FxContext {
     
     private static final FxContext singleton = new FxContext();
@@ -39,28 +37,22 @@ public class FxContext {
         fxEnvironments.put(_fxEnvironment.getClass(), _fxEnvironment);
     }
     
-    public FxJavaEnvironment getFxJavaEnvironment() {
+    public FxJavaEnvironment getFxJavaEnvironment() throws InstantiationException, IllegalAccessException {
         return getFxEnvironment(FxJavaEnvironment.class);
     }
     
-    public FxOperatingSystemEnvironment getFxOperatingSystemEnvironment() {
+    public FxOperatingSystemEnvironment getFxOperatingSystemEnvironment() throws InstantiationException, IllegalAccessException {
         return getFxEnvironment(FxOperatingSystemEnvironment.class);
     }
- 
-    public <T extends FxEnvironment> T getFxEnvironment(Class<T> classPlan) {
+
+    public <T extends FxEnvironment> T getFxEnvironment(Class<T> classPlan) throws InstantiationException, IllegalAccessException {
         T fxEnvironment = (T) fxEnvironments.get(classPlan);
         if (fxEnvironment != null) {
             return fxEnvironment;
         } else {
-            try {
-                fxEnvironment = (T) classPlan.newInstance();
-                fxEnvironments.put(classPlan, fxEnvironment);
-                return fxEnvironment;
-            } catch (InstantiationException | IllegalAccessException ex) {
-                log.error(ex);
-            } finally {
-                return null;
-            }
+            fxEnvironment = (T) classPlan.newInstance();
+            fxEnvironments.put(classPlan, fxEnvironment);
+            return fxEnvironment;
         }
     }
 }

@@ -6,9 +6,10 @@ import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.validator.routines.BigDecimalValidator;
+import org.apache.logging.log4j.Logger;
 
 /** 
- * <p>Title: org.y3.commons.fx - FxPersistantEnvironment</p>
+ * <p>Title: org.y3.commons.fx.environment - FxPersistantEnvironment</p>
  * <p>Description: </p>
  * <p>Copyright: 2016</p>
  * <p>Organisation: IT-Happens.de</p>
@@ -23,13 +24,15 @@ public abstract class FxPersistantEnvironment extends FxEnvironment {
     
     public abstract PERSISTANCE_CONTEXT getPersistanceContext();
     
+    public abstract Logger getLogger();
+    
     public FxPersistantEnvironment() {
         if (getPersistanceContext().equals(PERSISTANCE_CONTEXT.OPERATING_SYSTEM)) {
             storage = Preferences.systemNodeForPackage(getClass());
         } else if (getPersistanceContext().equals(PERSISTANCE_CONTEXT.USER)) {
             storage = Preferences.userNodeForPackage(getClass());
         } else {
-            log.error("Persistant environment not instantiated. No valid PERSISTANCE_CONTEXT defined.");
+            getLogger().error("Persistant environment not instantiated. No valid PERSISTANCE_CONTEXT defined.");
         }
     }
     
