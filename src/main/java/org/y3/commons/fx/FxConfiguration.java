@@ -2,16 +2,16 @@ package org.y3.commons.fx;
 
 import java.util.ResourceBundle;
 import javafx.scene.image.Image;
+import lombok.extern.log4j.Log4j2;
 
 /** 
  * <p>Title: org.y3.commons.fx - FxConfiguration</p>
  * <p>Description: </p>
- * <p>Copyright: 2015</p>
- * <p>Company: SE Bordnetze GmbH</p>
- * <p>Department: CIT SC GSD</p>
+ * <p>Copyright: 2015 - 2016</p>
+ * <p>Organisation: IT-Happens.de</p>
  * @author Christian.Rybotycky
- * @version $Id$
 */
+@Log4j2
 public abstract class FxConfiguration {
     
     private ResourceBundle bundle;
@@ -29,14 +29,14 @@ public abstract class FxConfiguration {
     
     public Image getFxImage(String filename) {
         String resourcePath = getImagesPath() + "/" + filename;
-        System.out.println("resourcePath: " + resourcePath);
+        log.debug("resourcePath: " + resourcePath);
         return new Image(getClass().getClassLoader().getResourceAsStream(resourcePath));
     }
     
     public String getRbString(String rbKey) {
         if (bundle == null) {
             String resourceBundlePath = getResourceBundlePath() + "/" + getResourceBundleName();
-            System.out.println("resourceBundlePath: " + resourceBundlePath);
+            log.debug("resourceBundlePath: " + resourceBundlePath);
             bundle = ResourceBundle.getBundle(resourceBundlePath);
         }
         return bundle.getString(rbKey);
