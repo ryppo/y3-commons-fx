@@ -1,5 +1,6 @@
 package org.y3.commons.fx;
 
+import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import javafx.scene.image.Image;
 import lombok.extern.log4j.Log4j2;
@@ -37,12 +38,18 @@ public abstract class FxConfiguration {
     }
     
     public String getRbString(String rbKey) {
+        String value = rbKey;
         if (bundle == null) {
             String resourceBundlePath = getResourceBundlePath() + "/" + getResourceBundleName();
             getLogger().debug("resourceBundlePath: " + resourceBundlePath);
             bundle = ResourceBundle.getBundle(resourceBundlePath);
         }
-        return bundle.getString(rbKey);
+        try {
+            value = bundle.getString(rbKey);
+        } catch (MissingResourceException ex) {
+            getLogger().error(ex);
+        }
+        return value;
     }
     
 }
